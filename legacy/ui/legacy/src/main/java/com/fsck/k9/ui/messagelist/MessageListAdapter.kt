@@ -57,18 +57,15 @@ class MessageListAdapter internal constructor(
     private val answeredIcon: Drawable = ResourcesCompat.getDrawable(res, Icons.Outlined.Reply, theme)!!
     private val forwardedAnsweredIcon: Drawable =
         ResourcesCompat.getDrawable(res, Icons.Outlined.CompareArrows, theme)!!
-    private val activeItemBackgroundColor: Int = theme.resolveColorAttribute(
-        colorAttrId = R.attr.messageListActiveItemBackgroundColor,
-        alphaFractionAttrId = R.attr.messageListActiveItemBackgroundAlphaFraction,
-        backgroundColorAttrId = R.attr.messageListActiveItemBackgroundAlphaBackground,
-    )
-    private val selectedItemBackgroundColor: Int =
-        theme.resolveColorAttribute(com.google.android.material.R.attr.colorSurfaceContainerHigh)
+    private val activeItemBackgroundColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorPrimary)
+    private val selectedItemBackgroundColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorPrimary)
+
     private val regularItemBackgroundColor: Int =
-        theme.resolveColorAttribute(R.attr.messageListRegularItemBackgroundColor)
-    private val readItemBackgroundColor: Int = theme.resolveColorAttribute(R.attr.messageListReadItemBackgroundColor)
+        theme.resolveColorAttribute(MaterialR.attr.colorSurface)
+    private val readItemBackgroundColor: Int =
+        theme.resolveColorAttribute(MaterialR.attr.colorSurfaceContainerHigh)
     private val unreadItemBackgroundColor: Int =
-        theme.resolveColorAttribute(R.attr.messageListUnreadItemBackgroundColor)
+        theme.resolveColorAttribute(MaterialR.attr.colorSurface)
 
     private val unreadTextColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorOnSurface)
     private val readTextColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorOnSurfaceVariant)

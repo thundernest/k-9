@@ -15,13 +15,6 @@
         <item name="textColorPrimaryRecipientDropdown">@android:color/primary_text_light</item>
         <item name="textColorSecondaryRecipientDropdown">@android:color/secondary_text_light</item>
 
-        <item name="messageListRegularItemBackgroundColor">?android:attr/windowBackground</item>
-        <item name="messageListReadItemBackgroundColor">#ffd8d8d8</item>
-        <item name="messageListUnreadItemBackgroundColor">?attr/messageListRegularItemBackgroundColor</item>
-        <item name="messageListActiveItemBackgroundColor">?attr/colorSecondaryVariant</item>
-        <item name="messageListActiveItemBackgroundAlphaFraction">60%</item>
-        <item name="messageListActiveItemBackgroundAlphaBackground">?attr/colorSurface</item>
-
         <item name="messageListSwipeSelectColor">@color/material_blue_600</item>
         <item name="messageListSwipeToggleReadColor">@color/material_blue_600</item>
         <item name="messageListSwipeToggleStarColor">@color/material_orange_600</item>
@@ -58,13 +51,6 @@
 
         <item name="textColorPrimaryRecipientDropdown">@android:color/primary_text_dark</item>
         <item name="textColorSecondaryRecipientDropdown">@android:color/secondary_text_dark</item>
-
-        <item name="messageListRegularItemBackgroundColor">?android:attr/windowBackground</item>
-        <item name="messageListReadItemBackgroundColor">?attr/messageListRegularItemBackgroundColor</item>
-        <item name="messageListUnreadItemBackgroundColor">#ff505050</item>
-        <item name="messageListActiveItemBackgroundColor">?attr/colorSecondaryVariant</item>
-        <item name="messageListActiveItemBackgroundAlphaFraction">50%</item>
-        <item name="messageListActiveItemBackgroundAlphaBackground">?attr/colorSurface</item>
 
         <item name="messageListSwipeSelectColor">@color/material_blue_700</item>
         <item name="messageListSwipeToggleReadColor">@color/material_blue_700</item>

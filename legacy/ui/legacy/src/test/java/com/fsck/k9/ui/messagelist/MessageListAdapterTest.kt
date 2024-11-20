@@ -38,7 +38,7 @@ private const val DATE_DEFAULT_FONT_SIZE = 14f
 
 class MessageListAdapterTest : RobolectricTest() {
     val activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
-    val context: Context = ContextThemeWrapper(activity, R.style.Theme_Legacy_Test)
+    val context: Context = ContextThemeWrapper(activity, com.google.android.material.R.style.Theme_Material3_Light)
 
     val contactsPictureLoader: ContactPictureLoader = mock()
     val listItemListener: MessageListItemActionListener = mock()
