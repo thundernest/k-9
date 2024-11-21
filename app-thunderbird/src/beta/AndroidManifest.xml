@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="${applicationId}" />
-                <data android:scheme="${applicationId}.desktop" />
+                <data android:scheme="${applicationId}.mobile" />
             </intent-filter>
 
             <!-- Microsoft uses a special redirect URI format for Android apps -->
