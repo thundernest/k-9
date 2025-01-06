@@ -20,7 +20,6 @@ import com.fsck.k9.activity.MessageCompose
 import com.fsck.k9.preferences.FilePrefixProvider
 import com.fsck.k9.provider.K9ThemeProvider
 import com.fsck.k9.provider.UnreadWidgetProvider
-import com.fsck.k9.widget.list.MessageListWidgetProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.binds
@@ -48,7 +47,6 @@ val appConfig = AppConfig(
     componentsToDisable = listOf(
         MessageCompose::class.java,
         LauncherShortcutActivity::class.java,
-        UnreadWidgetProvider::class.java,
-        MessageListWidgetProvider::class.java,
+        UnreadWidgetProvider::class.java
     ),
 )

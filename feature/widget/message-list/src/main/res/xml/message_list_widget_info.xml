@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<appwidget-provider
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialKeyguardLayout="@layout/message_list_widget_loading"
-    android:initialLayout="@layout/message_list_widget_loading"
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/glance_default_loading_layout"
     android:minHeight="180dp"
     android:minWidth="250dp"
     android:minResizeWidth="110dp"
@@ -11,4 +8,5 @@
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen|keyguard"
-    />
+    >
+</appwidget-provider>
