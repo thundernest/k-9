@@ -3,7 +3,9 @@ package app.k9mail.feature.widget.message.list
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Parcel
 import android.widget.LinearLayout
+import android.widget.RemoteViews
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -21,6 +23,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.action.Action
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -54,7 +57,11 @@ import app.k9mail.legacy.search.SearchAccount.Companion.createUnifiedInboxAccoun
 import com.fsck.k9.CoreResourceProvider
 import com.fsck.k9.K9
 import com.fsck.k9.activity.MessageCompose
+import com.fsck.k9.activity.MessageList
 import com.fsck.k9.activity.MessageList.Companion.intentDisplaySearch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -74,12 +81,11 @@ class MyAppWidget : GlanceAppWidget(), KoinComponent {
         // In this method, load data needed to render the AppWidget.
         // Use `withContext` to switch to another thread for long running
         // operations.
-
         provideContent {
             var mails by remember { mutableStateOf(emptyList<MessageListItem>()) }
 
             LaunchedEffect(Unit) {
-                val unifiedInboxSearch = SearchAccount.createUnifiedInboxAccount(
+                val unifiedInboxSearch = createUnifiedInboxAccount(
                     unifiedInboxTitle = coreResourceProvider.searchUnifiedInboxTitle(),
                     unifiedInboxDetail = coreResourceProvider.searchUnifiedInboxDetail(),
                 ).relatedSearch
@@ -129,23 +135,6 @@ class MyAppWidget : GlanceAppWidget(), KoinComponent {
                                 )
                             }
                         }
-//                        ListItem(MessageListItem(
-//                            "Wikipedia",
-//                            "May 5",
-//                            "Kinda long subject that should be long enough to exceed the available display space",
-//                            "Towel Day is celebrated every year on 25 May as a tribute to the author Douglas Adams by his fans.",
-//                            false,
-//                            false,
-//                            1,
-//                            Color.Blue.hashCode(),
-//                            MessageReference("", 0, ""),
-//                            11,
-//                            "",
-//                            1,
-//                            0,
-//                            false,
-//                            0
-//                        ))
                     }
                 }
             }
@@ -155,7 +144,20 @@ class MyAppWidget : GlanceAppWidget(), KoinComponent {
 
 @Composable
 private fun ListItem(item: MessageListItem) {
-    Row(GlanceModifier.fillMaxWidth().wrapContentHeight()) {
+    val context = LocalContext.current
+    println("item: $item")
+    Row(GlanceModifier.fillMaxWidth().wrapContentHeight().clickable{
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+//                val view = RemoteViews(Parcel.obtain())
+//                view.setOnClickFillInIntent
+                val intent = MessageList.actionDisplayMessageIntent(context, item.messageReference)
+                PendingIntentCompat.getActivity(context, -2, intent, PendingIntent.FLAG_UPDATE_CURRENT, false)!!.send()
+            } catch(e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }) {
         Spacer(GlanceModifier.width(8.dp).background(Color(item.accountColor)))
         Column(GlanceModifier.fillMaxWidth().padding(vertical = 4.dp, horizontal = 4.dp)) {
             Row(GlanceModifier.fillMaxWidth()) {
