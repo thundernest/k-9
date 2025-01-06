@@ -47,6 +47,6 @@ val appConfig = AppConfig(
     componentsToDisable = listOf(
         MessageCompose::class.java,
         LauncherShortcutActivity::class.java,
-        UnreadWidgetProvider::class.java
+        UnreadWidgetProvider::class.java,
     ),
 )

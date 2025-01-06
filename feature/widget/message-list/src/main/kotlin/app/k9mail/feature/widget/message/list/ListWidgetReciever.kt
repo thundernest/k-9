@@ -3,9 +3,6 @@ package app.k9mail.feature.widget.message.list
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Parcel
-import android.widget.LinearLayout
-import android.widget.RemoteViews
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,18 +14,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.PendingIntentCompat
 import androidx.glance.ColorFilter
-import androidx.glance.GlanceComposable
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
-import androidx.glance.action.Action
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import androidx.glance.appwidget.components.CircleIconButton
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.items
@@ -39,20 +33,16 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
-import androidx.glance.layout.fillMaxHeight
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.width
 import androidx.glance.layout.wrapContentHeight
-import androidx.glance.material3.ColorProviders
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import app.k9mail.core.ui.legacy.designsystem.atom.icon.Icons
 import app.k9mail.legacy.account.Account.SortType
-import app.k9mail.legacy.message.controller.MessageReference
-import app.k9mail.legacy.search.SearchAccount
 import app.k9mail.legacy.search.SearchAccount.Companion.createUnifiedInboxAccount
 import com.fsck.k9.CoreResourceProvider
 import com.fsck.k9.K9
@@ -69,15 +59,12 @@ class MyAppWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = MyAppWidget()
 }
 
-
-
 class MyAppWidget : GlanceAppWidget(), KoinComponent {
 
     private val messageListLoader: MessageListLoader by inject()
     private val coreResourceProvider: CoreResourceProvider by inject()
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-
         // In this method, load data needed to render the AppWidget.
         // Use `withContext` to switch to another thread for long running
         // operations.
@@ -102,7 +89,8 @@ class MyAppWidget : GlanceAppWidget(), KoinComponent {
             GlanceTheme(GlanceTheme.colors) {
                 Column(GlanceModifier.fillMaxSize().background(GlanceTheme.colors.surface)) {
                     Row(
-                        GlanceModifier.padding(horizontal = 8.dp, vertical = 12.dp).fillMaxWidth().background(GlanceTheme.colors.primaryContainer)
+                        GlanceModifier.padding(horizontal = 8.dp, vertical = 12.dp).fillMaxWidth()
+                            .background(GlanceTheme.colors.primaryContainer)
                             .clickable {
                                 val unifiedInboxAccount = createUnifiedInboxAccount(
                                     unifiedInboxTitle = coreResourceProvider.searchUnifiedInboxTitle(),
@@ -115,23 +103,42 @@ class MyAppWidget : GlanceAppWidget(), KoinComponent {
                                     newTask = true,
                                     clearTop = true,
                                 )
-                                PendingIntentCompat.getActivity(context, -1, intent, PendingIntent.FLAG_UPDATE_CURRENT, false)!!.send()
-                            }
+                                PendingIntentCompat.getActivity(
+                                    context,
+                                    -1,
+                                    intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT,
+                                    false,
+                                )!!.send()
+                            },
                     ) {
                         Text("Unified Inbox", style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 20.sp))
                         Spacer(GlanceModifier.defaultWeight())
-                        Image(ImageProvider(Icons.Outlined.Edit), null, GlanceModifier.padding(2.dp).padding(end = 6.dp).clickable {
-                            val intent = Intent(context, MessageCompose::class.java).apply {
-                                action = MessageCompose.ACTION_COMPOSE
-                            }
-                            PendingIntentCompat.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT, false)!!.send()
-                        }, colorFilter = ColorFilter.tint(GlanceTheme.colors.primary))
+                        Image(
+                            ImageProvider(Icons.Outlined.Edit),
+                            context.getString(R.string.message_list_widget_compose_action),
+                            GlanceModifier.padding(2.dp).padding(end = 6.dp).clickable {
+                                val intent = Intent(context, MessageCompose::class.java).apply {
+                                    action = MessageCompose.ACTION_COMPOSE
+                                }
+                                PendingIntentCompat.getActivity(
+                                    context,
+                                    0,
+                                    intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT,
+                                    false,
+                                )!!.send()
+                            },
+                            colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
+                        )
                     }
                     LazyColumn(GlanceModifier.fillMaxSize()) {
                         items(mails) {
                             Column {
                                 ListItem(it)
-                                Spacer(GlanceModifier.height(2.dp).fillMaxWidth().background(GlanceTheme.colors.surfaceVariant)
+                                Spacer(
+                                    GlanceModifier.height(2.dp).fillMaxWidth()
+                                        .background(GlanceTheme.colors.surfaceVariant),
                                 )
                             }
                         }
@@ -146,30 +153,37 @@ class MyAppWidget : GlanceAppWidget(), KoinComponent {
 private fun ListItem(item: MessageListItem) {
     val context = LocalContext.current
     println("item: $item")
-    Row(GlanceModifier.fillMaxWidth().wrapContentHeight().clickable{
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-//                val view = RemoteViews(Parcel.obtain())
-//                view.setOnClickFillInIntent
-                val intent = MessageList.actionDisplayMessageIntent(context, item.messageReference)
-                PendingIntentCompat.getActivity(context, -2, intent, PendingIntent.FLAG_UPDATE_CURRENT, false)!!.send()
-            } catch(e: Exception) {
-                e.printStackTrace()
+    Row(
+        GlanceModifier.fillMaxWidth().wrapContentHeight().clickable {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val intent = MessageList.actionDisplayMessageIntent(context, item.messageReference)
+                    PendingIntentCompat.getActivity(context, -2, intent, PendingIntent.FLAG_UPDATE_CURRENT, false)!!
+                        .send()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
-        }
-    }) {
+        },
+    ) {
         Spacer(GlanceModifier.width(8.dp).background(Color(item.accountColor)))
         Column(GlanceModifier.fillMaxWidth().padding(vertical = 4.dp, horizontal = 4.dp)) {
             Row(GlanceModifier.fillMaxWidth()) {
                 Row(GlanceModifier.defaultWeight(), horizontalAlignment = Alignment.Start) {
-                    Text(item.subject, style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 16.sp), maxLines = 1)
+                    Text(
+                        item.subject,
+                        style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 16.sp),
+                        maxLines = 1,
+                    )
                 }
                 Spacer(GlanceModifier.width(4.dp))
                 Row(horizontalAlignment = Alignment.End) {
-                    Box(GlanceModifier.background(GlanceTheme.colors.primaryContainer).cornerRadius(8.dp).padding(2.dp)) {
+                    Box(
+                        GlanceModifier.background(GlanceTheme.colors.primaryContainer).cornerRadius(8.dp).padding(2.dp),
+                    ) {
                         Text(
                             item.threadCount.toString(),
-                            style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 13.sp)
+                            style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 13.sp),
                         )
                     }
                     Spacer(GlanceModifier.width(4.dp))
@@ -178,11 +192,19 @@ private fun ListItem(item: MessageListItem) {
             }
             Spacer(GlanceModifier.height(2.dp))
             Row {
-                Text(item.displayName, style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 15.sp), maxLines = 1)
+                Text(
+                    item.displayName,
+                    style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 15.sp),
+                    maxLines = 1,
+                )
             }
             Spacer(GlanceModifier.height(2.dp))
             Row {
-                Text(item.preview, style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 13.sp), maxLines = 1)
+                Text(
+                    item.preview,
+                    style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 13.sp),
+                    maxLines = 1,
+                )
             }
         }
     }
