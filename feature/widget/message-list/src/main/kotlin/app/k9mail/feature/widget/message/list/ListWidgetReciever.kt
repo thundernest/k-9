@@ -83,7 +83,8 @@ class MyAppWidget : GlanceAppWidget(), KoinComponent {
                     sortAscending = false,
                     sortDateAscending = false,
                 )
-                mails = messageListLoader.getMessageList(messageListConfig)
+                val list = messageListLoader.getMessageList(messageListConfig)
+                mails = list.subList(0, list.size.coerceAtMost(100))
             }
 
             GlanceTheme(GlanceTheme.colors) {
