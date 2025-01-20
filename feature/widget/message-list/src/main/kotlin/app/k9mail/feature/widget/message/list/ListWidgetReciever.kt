@@ -49,6 +49,7 @@ import com.fsck.k9.K9
 import com.fsck.k9.activity.MessageCompose
 import com.fsck.k9.activity.MessageList
 import com.fsck.k9.activity.MessageList.Companion.intentDisplaySearch
+import kotlin.random.Random.Default.nextInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,111 +60,126 @@ class MyAppWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = MyAppWidget()
 }
 
+
 class MyAppWidget : GlanceAppWidget(), KoinComponent {
 
     private val messageListLoader: MessageListLoader by inject()
     private val coreResourceProvider: CoreResourceProvider by inject()
+    companion object {
+        private var lastMailList = emptyList<MessageListItem>()
+        private const val MESSAGE_COUNT = 100
+    }
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         // In this method, load data needed to render the AppWidget.
         // Use `withContext` to switch to another thread for long running
         // operations.
         provideContent {
-            var mails by remember { mutableStateOf(emptyList<MessageListItem>()) }
+            var mails by remember { mutableStateOf(lastMailList) }
 
             LaunchedEffect(Unit) {
-                val unifiedInboxSearch = createUnifiedInboxAccount(
-                    unifiedInboxTitle = coreResourceProvider.searchUnifiedInboxTitle(),
-                    unifiedInboxDetail = coreResourceProvider.searchUnifiedInboxDetail(),
-                ).relatedSearch
-                val messageListConfig = MessageListConfig(
-                    search = unifiedInboxSearch,
-                    showingThreadedList = K9.isThreadedViewEnabled,
-                    sortType = SortType.SORT_DATE,
-                    sortAscending = false,
-                    sortDateAscending = false,
-                )
-                val list = messageListLoader.getMessageList(messageListConfig)
-                mails = list.subList(0, list.size.coerceAtMost(100))
+               CoroutineScope(Dispatchers.IO).launch {
+                    val unifiedInboxSearch = createUnifiedInboxAccount(
+                        unifiedInboxTitle = coreResourceProvider.searchUnifiedInboxTitle(),
+                        unifiedInboxDetail = coreResourceProvider.searchUnifiedInboxDetail(),
+                    ).relatedSearch
+                    val messageListConfig = MessageListConfig(
+                        search = unifiedInboxSearch,
+                        showingThreadedList = K9.isThreadedViewEnabled,
+                        sortType = SortType.SORT_DATE,
+                        sortAscending = false,
+                        sortDateAscending = false,
+                    )
+                    val list = messageListLoader.getMessageList(messageListConfig)
+                    mails = list.subList(0, list.size.coerceAtMost(MESSAGE_COUNT))
+                    lastMailList = mails
+                }
             }
 
-            GlanceTheme(GlanceTheme.colors) {
-                Column(GlanceModifier.fillMaxSize().background(GlanceTheme.colors.surface)) {
-                    Row(
-                        GlanceModifier.padding(horizontal = 8.dp, vertical = 12.dp).fillMaxWidth()
-                            .background(GlanceTheme.colors.primaryContainer)
-                            .clickable {
-                                val unifiedInboxAccount = createUnifiedInboxAccount(
-                                    unifiedInboxTitle = coreResourceProvider.searchUnifiedInboxTitle(),
-                                    unifiedInboxDetail = coreResourceProvider.searchUnifiedInboxDetail(),
-                                )
-                                val intent = intentDisplaySearch(
-                                    context = context,
-                                    search = unifiedInboxAccount.relatedSearch,
-                                    noThreading = true,
-                                    newTask = true,
-                                    clearTop = true,
-                                )
-                                PendingIntentCompat.getActivity(
-                                    context,
-                                    -1,
-                                    intent,
-                                    PendingIntent.FLAG_UPDATE_CURRENT,
-                                    false,
-                                )!!.send()
-                            },
-                    ) {
-                        Text("Unified Inbox", style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 20.sp))
-                        Spacer(GlanceModifier.defaultWeight())
-                        Image(
-                            ImageProvider(Icons.Outlined.Edit),
-                            context.getString(R.string.message_list_widget_compose_action),
-                            GlanceModifier.padding(2.dp).padding(end = 6.dp).clickable {
-                                val intent = Intent(context, MessageCompose::class.java).apply {
-                                    action = MessageCompose.ACTION_COMPOSE
-                                }
-                                PendingIntentCompat.getActivity(
-                                    context,
-                                    0,
-                                    intent,
-                                    PendingIntent.FLAG_UPDATE_CURRENT,
-                                    false,
-                                )!!.send()
-                            },
-                            colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
-                        )
-                    }
-                    LazyColumn(GlanceModifier.fillMaxSize()) {
-                        items(mails) {
-                            Column {
-                                ListItem(it)
-                                Spacer(
-                                    GlanceModifier.height(2.dp).fillMaxWidth()
-                                        .background(GlanceTheme.colors.surfaceVariant),
-                                )
+            WidgetContent(mails)
+        }
+    }
+
+    @Composable
+    private fun WidgetContent(mails: List<MessageListItem>) {
+        val context = LocalContext.current
+        GlanceTheme(GlanceTheme.colors) {
+            Column(GlanceModifier.fillMaxSize().background(GlanceTheme.colors.surface)) {
+                Row(
+                    GlanceModifier.padding(horizontal = 8.dp, vertical = 12.dp).fillMaxWidth()
+                        .background(GlanceTheme.colors.primaryContainer)
+                        .clickable {
+                            openApp(context)
+                        },
+                ) {
+                    Text("Unified Inbox", style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 20.sp))
+                    Spacer(GlanceModifier.defaultWeight())
+                    Image(
+                        ImageProvider(Icons.Outlined.Edit),
+                        context.getString(R.string.message_list_widget_compose_action),
+                        GlanceModifier.padding(2.dp).padding(end = 6.dp).clickable {
+                            val intent = Intent(context, MessageCompose::class.java).apply {
+                                action = MessageCompose.ACTION_COMPOSE
                             }
+                            PendingIntentCompat.getActivity(
+                                context,
+                                nextInt(),
+                                intent,
+                                PendingIntent.FLAG_UPDATE_CURRENT,
+                                false,
+                            )!!.send()
+                        },
+                        colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
+                    )
+                }
+                LazyColumn(GlanceModifier.fillMaxSize()) {
+                    items(mails) {
+                        Column {
+                            ListItem(it)
+                            Spacer(
+                                GlanceModifier.height(2.dp).fillMaxWidth()
+                                    .background(GlanceTheme.colors.surfaceVariant),
+                            )
                         }
                     }
                 }
             }
         }
     }
+
+    private fun openApp(context: Context) {
+        val unifiedInboxAccount = createUnifiedInboxAccount(
+            unifiedInboxTitle = coreResourceProvider.searchUnifiedInboxTitle(),
+            unifiedInboxDetail = coreResourceProvider.searchUnifiedInboxDetail(),
+        )
+        val intent = intentDisplaySearch(
+            context = context,
+            search = unifiedInboxAccount.relatedSearch,
+            noThreading = true,
+            newTask = true,
+            clearTop = true,
+        ).apply {
+            action = nextInt().toString()
+        }
+        PendingIntentCompat.getActivity(
+            context,
+            nextInt(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT,
+            false,
+        )!!.send()
+    }
 }
 
 @Composable
 private fun ListItem(item: MessageListItem) {
     val context = LocalContext.current
-    println("item: $item")
     Row(
         GlanceModifier.fillMaxWidth().wrapContentHeight().clickable {
             CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    val intent = MessageList.actionDisplayMessageIntent(context, item.messageReference)
-                    PendingIntentCompat.getActivity(context, -2, intent, PendingIntent.FLAG_UPDATE_CURRENT, false)!!
-                        .send()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                val intent = MessageList.actionDisplayMessageIntent(context, item.messageReference)
+                PendingIntentCompat.getActivity(context, nextInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT, false)!!
+                    .send()
             }
         },
     ) {
