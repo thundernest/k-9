@@ -435,6 +435,17 @@ class ImapResponseParserTest {
     }
 
     @Test
+    fun `readResponse() with LIST response containing folder name with UTF8`() {
+        val parser = createParserWithResponses("""* LIST (\HasNoChildren) "." "萬里長城"""")
+
+        val response = parser.readResponse()
+
+        assertThat(response).hasSize(4)
+        assertThat(response).index(3).isEqualTo("萬里長城")
+        assertThatAllInputWasConsumed()
+    }
+
+    @Test
     fun `readResponse() with LIST response containing folder name with parentheses should throw`() {
         val parser = createParserWithResponses("""* LIST (\NoInferiors) "/" Root/Folder/Subfolder()""")
 
