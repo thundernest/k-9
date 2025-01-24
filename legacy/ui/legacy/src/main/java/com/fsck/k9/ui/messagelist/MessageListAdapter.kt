@@ -57,9 +57,10 @@ class MessageListAdapter internal constructor(
     private val answeredIcon: Drawable = ResourcesCompat.getDrawable(res, Icons.Outlined.Reply, theme)!!
     private val forwardedAnsweredIcon: Drawable =
         ResourcesCompat.getDrawable(res, Icons.Outlined.CompareArrows, theme)!!
-    private val activeItemBackgroundColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorPrimary)
-    private val selectedItemBackgroundColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorPrimary)
 
+    private val activeItemBackgroundColor: Int =
+        theme.resolveColorAttribute(MaterialR.attr.colorSecondaryContainer)
+    private val selectedItemBackgroundColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorSurfaceVariant)
     private val regularItemBackgroundColor: Int =
         theme.resolveColorAttribute(MaterialR.attr.colorSurface)
     private val readItemBackgroundColor: Int =
@@ -67,8 +68,12 @@ class MessageListAdapter internal constructor(
     private val unreadItemBackgroundColor: Int =
         theme.resolveColorAttribute(MaterialR.attr.colorSurface)
 
-    private val unreadTextColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorOnSurface)
-    private val readTextColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorOnSurfaceVariant)
+    private val activeItemColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorOnSecondaryContainer)
+    private val selectedItemColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorOnSurfaceVariant)
+    private val regularItemColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorOnSurface)
+    private val readItemColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorOnSurface)
+    private val unreadItemColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorOnSurface)
+
     private val previewTextColor: Int = theme.resolveColorAttribute(MaterialR.attr.colorOnSurfaceVariant)
 
     private val compactVerticalPadding = res.getDimensionPixelSize(R.dimen.messageListCompactVerticalPadding)
@@ -375,7 +380,7 @@ class MessageListAdapter internal constructor(
         }
 
         with(messageListItem) {
-            val textColor = if (isRead) readTextColor else unreadTextColor
+            val foregroundColor = selectForegroundColor(isSelected, isRead, isActive)
             val maybeBoldTypeface = if (isRead) Typeface.NORMAL else Typeface.BOLD
             val displayDate = relativeDateTimeFormatter.formatDate(messageDate)
             val displayThreadCount = if (appearance.showingThreadedList) threadCount else 0
@@ -399,7 +404,7 @@ class MessageListAdapter internal constructor(
             if (appearance.showContactPicture && holder.contactPicture.isVisible) {
                 setContactPicture(holder.contactPicture, displayAddress)
             }
-            setBackgroundColor(holder.itemView, isSelected, isRead, isActive)
+            holder.itemView.setBackgroundColor(selectBackgroundColor(isSelected, isRead, isActive))
             updateWithThreadCount(holder, displayThreadCount)
             val beforePreviewText = if (appearance.senderAboveSubject) subject else displayName
             val messageStringBuilder = SpannableStringBuilder(beforePreviewText)
@@ -409,13 +414,13 @@ class MessageListAdapter internal constructor(
                     messageStringBuilder.append(" – ").append(preview)
                 }
             }
-            holder.preview.setTextColor(textColor)
+            holder.preview.setTextColor(foregroundColor)
             holder.preview.setText(messageStringBuilder, TextView.BufferType.SPANNABLE)
 
             formatPreviewText(holder.preview, beforePreviewText, isRead)
 
             holder.subject.typeface = Typeface.create(holder.subject.typeface, maybeBoldTypeface)
-            holder.subject.setTextColor(textColor)
+            holder.subject.setTextColor(foregroundColor)
 
             val firstLineText = if (appearance.senderAboveSubject) displayName else subject
             holder.subject.text = firstLineText
@@ -427,7 +432,7 @@ class MessageListAdapter internal constructor(
             }
 
             holder.date.typeface = Typeface.create(holder.date.typeface, maybeBoldTypeface)
-            holder.date.setTextColor(textColor)
+            holder.date.setTextColor(foregroundColor)
             holder.date.text = displayDate
             holder.attachment.isVisible = hasAttachments
 
@@ -496,17 +501,26 @@ class MessageListAdapter internal constructor(
         return null
     }
 
-    private fun setBackgroundColor(view: View, selected: Boolean, read: Boolean, active: Boolean) {
+    private fun selectBackgroundColor(selected: Boolean, read: Boolean, active: Boolean): Int {
         val backGroundAsReadIndicator = appearance.backGroundAsReadIndicator
-        val backgroundColor = when {
+        return when {
             active -> activeItemBackgroundColor
             selected -> selectedItemBackgroundColor
             backGroundAsReadIndicator && read -> readItemBackgroundColor
             backGroundAsReadIndicator && !read -> unreadItemBackgroundColor
             else -> regularItemBackgroundColor
         }
+    }
 
-        view.setBackgroundColor(backgroundColor)
+    private fun selectForegroundColor(selected: Boolean, read: Boolean, active: Boolean): Int {
+        val backGroundAsReadIndicator = appearance.backGroundAsReadIndicator
+        return when {
+            active -> activeItemColor
+            selected -> selectedItemColor
+            backGroundAsReadIndicator && read -> readItemColor
+            backGroundAsReadIndicator && !read -> unreadItemColor
+            else -> regularItemColor
+        }
     }
 
     private fun updateWithThreadCount(holder: MessageViewHolder, threadCount: Int) {
