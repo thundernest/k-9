@@ -18,7 +18,6 @@ import net.thunderbird.android.provider.TbAppNameProvider
 import net.thunderbird.android.provider.TbFeatureThemeProvider
 import net.thunderbird.android.provider.TbThemeProvider
 import net.thunderbird.android.widget.appWidgetModule
-import net.thunderbird.android.widget.provider.MessageListWidgetProvider
 import net.thunderbird.android.widget.provider.UnreadWidgetProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
@@ -48,6 +47,5 @@ val appConfig = AppConfig(
         MessageCompose::class.java,
         LauncherShortcutActivity::class.java,
         UnreadWidgetProvider::class.java,
-        MessageListWidgetProvider::class.java,
     ),
 )

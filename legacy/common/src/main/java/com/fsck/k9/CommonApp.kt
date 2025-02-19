@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
-import app.k9mail.feature.widget.message.list.MessageListWidgetManager
 import app.k9mail.legacy.di.DI
 import app.k9mail.legacy.ui.theme.ThemeManager
 import com.fsck.k9.controller.MessagingController
@@ -30,7 +29,6 @@ abstract class CommonApp : Application(), WorkManagerConfiguration.Provider {
     private val themeManager: ThemeManager by inject()
     private val appLanguageManager: AppLanguageManager by inject()
     private val notificationChannelManager: NotificationChannelManager by inject()
-    private val messageListWidgetManager: MessageListWidgetManager by inject()
     private val workManagerConfigurationProvider: WorkManagerConfigurationProvider by inject()
 
     private val appCoroutineScope: CoroutineScope = MainScope()
@@ -52,7 +50,6 @@ abstract class CommonApp : Application(), WorkManagerConfiguration.Provider {
         initializeAppLanguage()
         updateNotificationChannelsOnAppLanguageChanges()
         themeManager.init()
-        messageListWidgetManager.init()
 
         messagingListenerProvider.listeners.forEach { listener ->
             messagingController.addListener(listener)

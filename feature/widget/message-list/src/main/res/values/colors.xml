@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="message_list_widget_header_background">#737373</color>
-    <color name="message_list_widget_header_text">#e4e4e4</color>
-    <color name="message_list_widget_divider">#e5e5e5</color>
-    <color name="message_list_widget_text_read">#444444</color>
-    <color name="message_list_widget_text_unread">#000000</color>
-</resources>

@@ -55,6 +55,7 @@ detektPlugin = "1.23.5"
 detektPluginCompose = "0.4.18"
 fastAdapter = "5.7.0"
 forkhandlesBom = "2.20.0.0"
+glanceMaterial3 = "1.1.1"
 glide = "4.16.0"
 gradle = "8.12.1"
 http4kBom = "5.35.2.0"
@@ -98,6 +99,7 @@ timber = "5.0.1"
 turbine = "1.2.0"
 xmlpull = "1.0"
 zxing = "3.5.3"
+glanceAppwidget = "1.1.1"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -149,6 +151,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "androidxFragment" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "androidxFragment" }
 androidx-fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "androidxFragment" }
+androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glanceMaterial3" }
 androidx-lifecycle-common = { module = "androidx.lifecycle:lifecycle-common", version.ref = "androidxLifecycle" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
@@ -243,6 +246,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 xmlpull = { module = "com.github.cketti:xmlpull-extracted-from-android", version.ref = "xmlpull" }
 zxing = { module = "com.google.zxing:core", version.ref = "zxing" }
+androidx-glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glanceAppwidget" }
 
 [bundles]
 shared-jvm-main = [
