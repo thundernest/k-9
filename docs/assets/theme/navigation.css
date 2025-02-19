@@ -1,0 +1,14 @@
+.sidebar-scrollbox .section a[href*="adr"] strong {
+    display: none;
+}
+
+.sidebar-scrollbox .section a[href*="adr"] .number {
+    font-weight: 550;
+}
+
+.chapter li .chapter-item div {
+    display: block;
+      padding: 0;
+      text-decoration: none;
+      color: var(--sidebar-fg);
+}

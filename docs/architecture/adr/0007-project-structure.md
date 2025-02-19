@@ -1,4 +1,4 @@
-# [Project Structure]
+# Project Structure
 
 - Issue: [#7852](https://github.com/thunderbird/thunderbird-android/issues/7852)
 - Pull Request: [#7829](https://github.com/thunderbird/thunderbird-android/pull/7829)

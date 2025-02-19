@@ -10,16 +10,27 @@ src = "."
 edition = "2018"
 
 [build]
-build-dir = "book"
+build-dir = "../book/docs/latest"
 create-missing = false
 
 [output.html]
 git-repository-url = "https://github.com/thunderbird/thunderbird-android"
+edit-url-template = "https://github.com/thunderbird/thunderbird-android/edit/main/{path}"
 git-branch = "main"
 fold.enable = true
-additional-js = ["assets/mermaid.min.js", "assets/mermaid-init.js"]
+theme = "assets/theme"
+additional-js = ["assets/theme/mermaid.min.js", "assets/theme/mermaid-init.js", "assets/theme/navigation.js", "assets/theme/pagetoc.js"]
+additional-css = ["assets/theme/last-changed.css", "assets/theme/navigation.css", "assets/theme/pagetoc.css"]
 
 [preprocessor]
 
+[preprocessor.external-links]
+
+[preprocessor.last-changed]
+command = "mdbook-last-changed"
+renderer = ["html"]
+
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
+
+[preprocessor.pagetoc]

@@ -5,10 +5,10 @@
 1. Create a `.signing` folder in the root of the Git repository, if it doesn't exist yet.
 2. Download the `k9-release-signing.jks` and `k9.release.signing.properties` files from 1Password and place them in the `.signing` folder.
 
-Example `<app>.<realeaseType>.signing.properties` file:
+Example `<app>.<releaseType>.signing.properties` file:
 
-```
-<app>.<releaseType>.storeFile=<path to keystore '../.signing/k9mail.jks'>
+```properties
+<app>.<releaseType>.storeFile=<path to keystore "../.signing/k9mail.jks">
 <app>.<releaseType>.storePassword=<storePassword>
 <app>.<releaseType>.keyAlias=<keyAlias>
 <app>.<releaseType>.keyPassword=<keyPassword>
@@ -23,21 +23,21 @@ Example `<app>.<realeaseType>.signing.properties` file:
    the [installation instructions](https://f-droid.org/docs/Installing_the_Server_and_Repo_Tools).
    1. On MacOS, it's best to install the latest version from source, because the version in Homebrew has some issues.
       1. Install the android command line tools if not available already.
-         ```
+         ```shell
          brew install --cask android-commandlinetools
          ```
       2. Install latest _fdroidserver_ from source:
-         ```
+         ```shell
          python -m venv fdroidserver-env
          source fdroidserver-env/bin/activate
          pip install git+https://gitlab.com/fdroid/fdroidserver.git
          ```
       3. To use _fdroidserver_ from the command line, you need to activate the virtual environment before each use:
-         ```
+         ```shell
          source fdroidserver-env/bin/activate
          ```
       4. To deactivate the virtual environment:
-         ```
+         ```shell
          deactivate
          ```
 2. [Sign up for a Gitlab account](https://gitlab.com/users/sign_up) and fork
@@ -56,7 +56,7 @@ Example `<app>.<realeaseType>.signing.properties` file:
 4. Commit the changes. Message: "Version $versionName"
 5. Run `./gradlew clean :app-k9mail:assembleRelease --no-build-cache --no-configuration-cache`
 6. Update an existing installation to make sure the app is signed with the proper key and runs on a real device.
-   ```
+   ```shell
    adb install -r app-k9mail/build/outputs/apk/release/app-k9mail-release.apk
    ```
 7. Tag as $versionName, e.g. `6.508`
@@ -150,7 +150,7 @@ That way the new release won't contain any changes that weren't exposed to user 
 5. Commit the changes. Message: "Version $versionName"
 6. Run `./gradlew clean :app-k9mail:assembleRelease --no-build-cache --no-configuration-cache`
 7. Update an existing installation to make sure the app is signed with the proper key and runs on a real device.
-   ```
+   ```shell
    adb install -r app-k9mail/build/outputs/apk/release/app-k9mail-release.apk
    ```
 8. Tag as $versionName, e.g. `6.800`

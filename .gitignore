@@ -5,6 +5,9 @@ local.properties
 # Kotlin
 .kotlin/
 
+# mdBook
+book/
+
 # Generated folders
 bin/
 build/
