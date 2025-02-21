@@ -69,6 +69,11 @@ internal fun DrawerContent(
                         onFolderClick = { folder ->
                             onEvent(Event.OnFolderClick(folder))
                         },
+                        onUpdateFolderListScrollPosition = { position, offset ->
+                            onEvent(
+                                Event.OnUpdateFolderListScrollPosition(position = position, offset = offset)
+                            )
+                        },
                         showStarredCount = state.config.showStarredCount,
                         modifier = Modifier.weight(1f),
                     )

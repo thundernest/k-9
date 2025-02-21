@@ -21,6 +21,7 @@ internal fun FolderList(
     folders: ImmutableList<DisplayFolder>,
     selectedFolder: DisplayFolder?,
     onFolderClick: (DisplayFolder) -> Unit,
+    onUpdateFolderListScrollPosition: (Int, Int) -> Unit,
     showStarredCount: Boolean,
     modifier: Modifier = Modifier,
 ) {
