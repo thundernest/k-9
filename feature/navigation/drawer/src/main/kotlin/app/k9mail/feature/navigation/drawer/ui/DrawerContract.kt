@@ -5,6 +5,7 @@ import app.k9mail.core.ui.compose.common.mvi.UnidirectionalViewModel
 import app.k9mail.feature.navigation.drawer.NavigationDrawerExternalContract.DrawerConfig
 import app.k9mail.feature.navigation.drawer.domain.entity.DisplayAccount
 import app.k9mail.feature.navigation.drawer.domain.entity.DisplayFolder
+import app.k9mail.feature.navigation.drawer.ui.folder.FolderListScrollSnapshot
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -23,6 +24,10 @@ internal interface DrawerContract {
         val selectedAccountId: String? = null,
         val folders: ImmutableList<DisplayFolder> = persistentListOf(),
         val selectedFolderId: String? = null,
+        val folderListScrollSnapshot: FolderListScrollSnapshot = FolderListScrollSnapshot(
+            scrollPosition = 0,
+            scrollOffset = 0
+        ),
         val isLoading: Boolean = false,
     )
 
