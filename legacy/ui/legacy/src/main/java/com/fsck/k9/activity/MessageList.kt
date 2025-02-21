@@ -537,7 +537,7 @@ open class MessageList :
         if (messageListActivityConfig == null) {
             messageListActivityConfig = MessageListActivityConfig.create(generalSettingsManager)
         } else if (messageListActivityConfig != MessageListActivityConfig.create(generalSettingsManager)) {
-            recreateCompat()
+            recreateMessageList(this)
         }
 
         if (displayMode != DisplayMode.MESSAGE_VIEW) {
@@ -1604,6 +1604,16 @@ open class MessageList :
          */
         fun launch(context: Context, accountUuid: String) {
             val intent = shortcutIntentForAccount(context, accountUuid)
+            context.startActivity(intent)
+        }
+
+        @JvmStatic
+        fun recreateMessageList(context: Context) {
+            val intent = Intent(context, MessageList::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            }
+
             context.startActivity(intent)
         }
     }
