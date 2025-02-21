@@ -121,8 +121,8 @@ internal class DrawerViewModel(
                     it.copy(
                         folderListScrollSnapshot = FolderListScrollSnapshot(
                             scrollPosition = event.position,
-                            scrollOffset = event.offset
-                        )
+                            scrollOffset = event.offset,
+                        ),
                     )
                 }
             }

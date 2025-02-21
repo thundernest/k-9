@@ -23,6 +23,7 @@ import app.k9mail.feature.navigation.drawer.ui.setting.SettingList
 // automatically limit the width of the content view so there's still room for a scrim with minimum tap width.
 private val DRAWER_WIDTH = 360.dp
 
+@Suppress("LongMethod")
 @Composable
 internal fun DrawerContent(
     state: State,
@@ -72,7 +73,7 @@ internal fun DrawerContent(
                         },
                         onUpdateFolderListScrollPosition = { position, offset ->
                             onEvent(
-                                Event.OnUpdateFolderListScrollPosition(position = position, offset = offset)
+                                Event.OnUpdateFolderListScrollPosition(position = position, offset = offset),
                             )
                         },
                         showStarredCount = state.config.showStarredCount,

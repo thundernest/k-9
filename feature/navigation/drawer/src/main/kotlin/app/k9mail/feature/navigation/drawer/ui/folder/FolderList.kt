@@ -66,7 +66,7 @@ internal fun FolderList(
     LaunchedEffect(Unit) {
         listState.scrollToItem(
             index = folderListScrollSnapshot.scrollPosition,
-            scrollOffset = folderListScrollSnapshot.scrollOffset
+            scrollOffset = folderListScrollSnapshot.scrollOffset,
         )
     }
 
@@ -74,7 +74,7 @@ internal fun FolderList(
         onDispose {
             onUpdateFolderListScrollPosition(
                 listState.firstVisibleItemIndex,
-                listState.firstVisibleItemScrollOffset
+                listState.firstVisibleItemScrollOffset,
             )
         }
     }

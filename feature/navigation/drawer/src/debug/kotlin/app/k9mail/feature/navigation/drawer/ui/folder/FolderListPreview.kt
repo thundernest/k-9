@@ -18,7 +18,7 @@ internal fun FolderListPreview() {
             selectedFolder = null,
             folderListScrollSnapshot = FolderListScrollSnapshot(
                 scrollPosition = 0,
-                scrollOffset = 0
+                scrollOffset = 0,
             ),
             onFolderClick = {},
             showStarredCount = false,
@@ -38,7 +38,7 @@ internal fun FolderListPreviewSelected() {
             selectedFolder = DISPLAY_FOLDER,
             folderListScrollSnapshot = FolderListScrollSnapshot(
                 scrollPosition = 0,
-                scrollOffset = 0
+                scrollOffset = 0,
             ),
             onFolderClick = {},
             showStarredCount = false,
@@ -59,7 +59,7 @@ internal fun FolderListWithUnifiedFolderPreview() {
             selectedFolder = DISPLAY_FOLDER,
             folderListScrollSnapshot = FolderListScrollSnapshot(
                 scrollPosition = 0,
-                scrollOffset = 0
+                scrollOffset = 0,
             ),
             onFolderClick = {},
             showStarredCount = false,

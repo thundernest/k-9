@@ -26,7 +26,7 @@ internal interface DrawerContract {
         val selectedFolderId: String? = null,
         val folderListScrollSnapshot: FolderListScrollSnapshot = FolderListScrollSnapshot(
             scrollPosition = 0,
-            scrollOffset = 0
+            scrollOffset = 0,
         ),
         val isLoading: Boolean = false,
     )
