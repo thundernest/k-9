@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -27,8 +28,10 @@ internal fun FolderList(
 ) {
     val resources = LocalContext.current.resources
     val folderNameFormatter = remember { FolderNameFormatter(resources) }
+    val listState = rememberLazyListState()
 
     LazyColumn(
+        state = listState,
         modifier = modifier
             .fillMaxWidth(),
         contentPadding = PaddingValues(vertical = MainTheme.spacings.default),
