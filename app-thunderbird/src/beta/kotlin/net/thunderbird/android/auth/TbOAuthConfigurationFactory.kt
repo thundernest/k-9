@@ -50,11 +50,11 @@ class TbOAuthConfigurationFactory : OAuthConfigurationFactory {
             "smtp.gmail.com",
             "smtp.googlemail.com",
         ) to OAuthConfiguration(
-            clientId = "406964657835-808044gjdn5vac6dsn99jtka3v8igtle.apps.googleusercontent.com",
+            clientId = "560629489500-rvmv3suifbrl1888pl6ppulog8krnlcp.apps.googleusercontent.com",
             scopes = listOf("https://mail.google.com/"),
             authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth",
             tokenEndpoint = "https://oauth2.googleapis.com/token",
-            redirectUri = "${BuildConfig.APPLICATION_ID}.desktop:/oauth2redirect",
+            redirectUri = "${BuildConfig.APPLICATION_ID}.mobile:/oauth2redirect",
         )
     }
 

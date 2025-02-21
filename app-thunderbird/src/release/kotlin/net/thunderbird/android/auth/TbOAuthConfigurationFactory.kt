@@ -42,7 +42,6 @@ class TbOAuthConfigurationFactory : OAuthConfigurationFactory {
         )
     }
 
-    // TODO: Update clientId and redirectUri once new client ID is available
     private fun createGmailConfiguration(): Pair<List<String>, OAuthConfiguration> {
         return listOf(
             "imap.gmail.com",
@@ -50,11 +49,11 @@ class TbOAuthConfigurationFactory : OAuthConfigurationFactory {
             "smtp.gmail.com",
             "smtp.googlemail.com",
         ) to OAuthConfiguration(
-            clientId = "406964657835-pq5dckrt5j6ijkicfp2jf4vdhesncql6.apps.googleusercontent.com",
+            clientId = "560629489500-kta4qnt6vrf1bj8ljcohj7cvbbqguauf.apps.googleusercontent.com",
             scopes = listOf("https://mail.google.com/"),
             authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth",
             tokenEndpoint = "https://oauth2.googleapis.com/token",
-            redirectUri = "${BuildConfig.APPLICATION_ID}.desktop:/oauth2redirect",
+            redirectUri = "${BuildConfig.APPLICATION_ID}:/oauth2redirect",
         )
     }
 
