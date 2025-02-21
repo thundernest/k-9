@@ -226,6 +226,7 @@
         android:id="@+id/contact_picture_click_area"
         android:layout_width="@dimen/messageListStartKeyline"
         android:layout_height="0dp"
+        android:contentDescription="@string/checkbox_content_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -1083,4 +1083,5 @@ You can keep this message and use it as a backup for your secret key. If you wan
     <string name="settings_ui_telemetry_title">Usage and technical data</string>
     <!-- Description of the "Usage and technical data" setting used in the "data collection" section of the general settings screen -->
     <string name="settings_ui_telemetry_description">Shares performance, usage, hardware and customization data about this app with Mozilla to help us make Thunderbird better</string>
+    <string name="checkbox_content_description">Checkbox</string>
 </resources>
