@@ -11,6 +11,7 @@ import app.k9mail.feature.navigation.drawer.ui.DrawerContract.Effect
 import app.k9mail.feature.navigation.drawer.ui.DrawerContract.Event
 import app.k9mail.feature.navigation.drawer.ui.DrawerContract.State
 import app.k9mail.feature.navigation.drawer.ui.DrawerContract.ViewModel
+import app.k9mail.feature.navigation.drawer.ui.folder.FolderListScrollSnapshot
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -113,6 +114,17 @@ internal class DrawerViewModel(
                 openAccount(
                     state.value.accounts.nextOrFirst(event.account),
                 )
+            }
+
+            is Event.OnUpdateFolderListScrollPosition -> {
+                updateState {
+                    it.copy(
+                        folderListScrollSnapshot = FolderListScrollSnapshot(
+                            scrollPosition = event.position,
+                            scrollOffset = event.offset
+                        )
+                    )
+                }
             }
 
             Event.OnAccountSelectorClick -> {
