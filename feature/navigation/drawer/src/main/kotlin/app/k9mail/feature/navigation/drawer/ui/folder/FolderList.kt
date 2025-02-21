@@ -21,6 +21,7 @@ import kotlinx.collections.immutable.ImmutableList
 internal fun FolderList(
     folders: ImmutableList<DisplayFolder>,
     selectedFolder: DisplayFolder?,
+    folderListScrollSnapshot: FolderListScrollSnapshot,
     onFolderClick: (DisplayFolder) -> Unit,
     onUpdateFolderListScrollPosition: (Int, Int) -> Unit,
     showStarredCount: Boolean,

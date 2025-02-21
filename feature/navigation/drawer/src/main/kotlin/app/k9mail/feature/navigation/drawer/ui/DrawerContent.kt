@@ -66,6 +66,7 @@ internal fun DrawerContent(
                     FolderList(
                         folders = state.folders,
                         selectedFolder = state.folders.firstOrNull { it.id == state.selectedFolderId },
+                        folderListScrollSnapshot = state.folderListScrollSnapshot,
                         onFolderClick = { folder ->
                             onEvent(Event.OnFolderClick(folder))
                         },
