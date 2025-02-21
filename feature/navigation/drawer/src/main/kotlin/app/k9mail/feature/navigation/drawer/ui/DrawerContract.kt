@@ -36,6 +36,7 @@ internal interface DrawerContract {
         data class SelectFolder(val folderId: String?) : Event
         data class OnAccountClick(val account: DisplayAccount) : Event
         data class OnAccountViewClick(val account: DisplayAccount) : Event
+        data class OnUpdateFolderListScrollPosition(val position: Int, val offset: Int) : Event
         data class OnFolderClick(val folder: DisplayFolder) : Event
         data object OnAccountSelectorClick : Event
         data object OnManageFoldersClick : Event
