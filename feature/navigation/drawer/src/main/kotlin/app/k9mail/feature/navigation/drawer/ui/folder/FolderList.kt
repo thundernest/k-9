@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -20,14 +23,18 @@ import kotlinx.collections.immutable.ImmutableList
 internal fun FolderList(
     folders: ImmutableList<DisplayFolder>,
     selectedFolder: DisplayFolder?,
+    folderListScrollSnapshot: FolderListScrollSnapshot,
     onFolderClick: (DisplayFolder) -> Unit,
+    onUpdateFolderListScrollPosition: (Int, Int) -> Unit,
     showStarredCount: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val resources = LocalContext.current.resources
     val folderNameFormatter = remember { FolderNameFormatter(resources) }
+    val listState = rememberLazyListState()
 
     LazyColumn(
+        state = listState,
         modifier = modifier
             .fillMaxWidth(),
         contentPadding = PaddingValues(vertical = MainTheme.spacings.default),
@@ -53,6 +60,22 @@ internal fun FolderList(
                         ),
                 )
             }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        listState.scrollToItem(
+            index = folderListScrollSnapshot.scrollPosition,
+            scrollOffset = folderListScrollSnapshot.scrollOffset,
+        )
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            onUpdateFolderListScrollPosition(
+                listState.firstVisibleItemIndex,
+                listState.firstVisibleItemScrollOffset,
+            )
         }
     }
 }
