@@ -1,5 +1,9 @@
 # Create K-9 Mail releases
 
+This document contains the historical manual release process for K-9 Mail.
+
+For current steps that are taken for the automated process, see [Releases](RELEASES.md).
+
 ## One-time setup
 
 1. Create a `.signing` folder in the root of the Git repository, if it doesn't exist yet.

@@ -6,6 +6,7 @@
 
 - [Contributing](CONTRIBUTING.md)
 - [Design](DESIGN.md)
+- [Releases](RELEASES.md)
 - [Releasing](RELEASING.md)
 - [Translations](translations.md)
 - [Java to Kotlin Conversion Guide](contributing/java-to-kotlin-conversion-guide.md)
