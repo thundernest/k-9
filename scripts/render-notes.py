@@ -30,6 +30,18 @@ def render_notes(
         tb_notes_filename = f"{version[0:-1]}eta.yml"
         tb_notes_directory = "android_beta"
 
+    if application == "k9mail":
+        build_type = "main"
+    else:
+        if applicationid == "net.thunderbird.android":
+            build_type = "release"
+        elif applicationid == "net.thunderbird.android.beta":
+            build_type = "beta"
+        else:
+            # // throw error
+            print("Error: Unsupported applicationid")
+            sys.exit(1)
+
     if os.path.isdir(os.path.expanduser(notesrepo)):
         notes_path = os.path.join(
             os.path.expanduser(notesrepo), tb_notes_directory, tb_notes_filename
@@ -85,7 +97,7 @@ def render_notes(
     render_files = {
         "changelog_master": {
             "template": "changelog_master.xml",
-            "outfile": f"./app-{application}/src/main/res/raw/changelog_master.xml",
+            "outfile": f"./app-{application}/src/{build_type}/res/raw/changelog_master.xml",
             "render_data": render_data["releases"][version],
         },
         "changelog": {

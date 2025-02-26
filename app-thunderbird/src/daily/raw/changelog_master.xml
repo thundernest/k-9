@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="changelog_style.xsl"?>
+<changelog>
+    <release version="Daily" versioncode="1">
+        <change>Daily snapshot of github.com/thunderbird/thunderbird-android</change>
+    </release>
+</changelog>
