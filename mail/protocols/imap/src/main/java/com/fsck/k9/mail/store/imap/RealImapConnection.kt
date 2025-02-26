@@ -55,6 +55,7 @@ internal class RealImapConnection(
     private var responseParser: ImapResponseParser? = null
     private var nextCommandTag = 0
     private var capabilities = emptySet<String>()
+    private var enabled = emptySet<String>()
     private var stacktraceForClose: Exception? = null
     private var open = false
     private var retryOAuthWithNewToken = true
@@ -98,6 +99,7 @@ internal class RealImapConnection(
 
             enableCompressionIfRequested()
             sendClientInfoIfSupported()
+            enableCapabilitiesIfSupported()
 
             retrievePathPrefixIfNecessary()
             retrievePathDelimiterIfNecessary()
@@ -251,6 +253,20 @@ internal class RealImapConnection(
 
         if (!extractCapabilities(responses)) {
             throw MessagingException("Invalid CAPABILITY response received")
+        }
+    }
+
+    private fun enableCapabilitiesIfSupported() {
+        if (!hasCapability(Capabilities.ENABLE)) {
+	    return;
+	}
+
+        try {
+            val responses = executeSimpleCommand(Commands.ENABLE)
+	    val enabledResponse = EnabledResponse.parse(responses) ?: return
+	    enabled = enabledResponse.capabilities
+        } catch (e: NegativeImapResponseException) {
+            Timber.d(e, "Ignoring negative response to ENABLE command")
         }
     }
 
@@ -680,6 +696,9 @@ internal class RealImapConnection(
 
     override val isUidPlusCapable: Boolean
         get() = capabilities.contains(Capabilities.UID_PLUS)
+
+    override val isUtf8AcceptCapable: Boolean
+        get() = enabled.contains(Capabilities.UTF8_ACCEPT)
 
     @Synchronized
     override fun close() {
