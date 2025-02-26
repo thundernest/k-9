@@ -1,5 +1,7 @@
 package app.k9mail.feature.navigation.drawer
 
+import app.k9mail.feature.navigation.drawer.data.UnifiedFolderRepository
+import app.k9mail.feature.navigation.drawer.domain.DomainContract
 import app.k9mail.feature.navigation.drawer.domain.DomainContract.UseCase
 import app.k9mail.feature.navigation.drawer.domain.usecase.GetDisplayAccounts
 import app.k9mail.feature.navigation.drawer.domain.usecase.GetDisplayFoldersForAccount
@@ -13,6 +15,12 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 val navigationDrawerModule: Module = module {
+
+    single<DomainContract.UnifiedFolderRepository> {
+        UnifiedFolderRepository(
+            messageCountsProvider = get(),
+        )
+    }
 
     single<UseCase.GetDrawerConfig> {
         GetDrawerConfig(
@@ -35,8 +43,8 @@ val navigationDrawerModule: Module = module {
 
     single<UseCase.GetDisplayFoldersForAccount> {
         GetDisplayFoldersForAccount(
-            repository = get(),
-            messageCountsProvider = get(),
+            displayFolderRepository = get(),
+            unifiedFolderRepository = get(),
         )
     }
 

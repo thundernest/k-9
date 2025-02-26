@@ -39,6 +39,7 @@ val controllerModule = module {
         DefaultMessageCountsProvider(
             accountManager = get(),
             messageStoreManager = get(),
+            messagingControllerRegistry = get(),
         )
     }
 

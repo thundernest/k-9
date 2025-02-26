@@ -84,7 +84,7 @@ internal class DrawerViewModel(
             .distinctUntilChanged()
             .flatMapLatest { (accountId, showUnifiedInbox) ->
                 getDisplayFoldersForAccount(accountId, showUnifiedInbox)
-            }.collectLatest { folders ->
+            }.collect { folders ->
                 updateFolders(folders)
             }
     }

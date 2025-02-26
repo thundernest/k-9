@@ -16,6 +16,7 @@ import assertk.assertions.isNull
 import com.fsck.k9.CoreResourceProvider
 import com.fsck.k9.Preferences
 import com.fsck.k9.ui.messagelist.DefaultFolderProvider
+import kotlinx.coroutines.flow.Flow
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -138,6 +139,10 @@ class UnreadWidgetDataProviderTest : AutoCloseKoinTest() {
         }
 
         override fun getMessageCounts(search: LocalSearch): MessageCounts {
+            throw UnsupportedOperationException()
+        }
+
+        override fun getMessageCountsFlow(search: LocalSearch): Flow<MessageCounts> {
             throw UnsupportedOperationException()
         }
 
