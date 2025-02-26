@@ -50,21 +50,23 @@ all languages, this should be discussed with the core team who will use this pro
 
 # Managing translations
 
-Right now we're using the `resourceConfigurations` mechanism provided by the Android Gradle Plugin to limit which
-languages are included in builds of the app.
-See e.g. https://github.com/thunderbird/thunderbird-android/blob/176a520e86bfe6875ad409a7565d122406dc7550/app-k9mail/build.gradle.kts#L40-L48
+Right now we're using the `androidResources.localeFilters` mechanism provided by the Android Gradle Plugin to limit
+which languages are included in builds of the app,
+See [localFilters](<https://developer.android.com/reference/tools/gradle-api/8.8/com/android/build/api/dsl/ApplicationAndroidResources#localeFilters()>).
 
 This list needs to be kept in sync with the string array `supported_languages`, so the in-app language picker offers
 exactly the languages that are included in the app.
 
 ## Removing a language
 
-1. Remove the language code from the `resourceConfigurations` list in `app-k9mail/build.gradle.kts`.
+1. Remove the language code from the `androidResources.localeFilters` list in `app-thunderbird/build.gradle.kts` and
+   `app-k9mail/build.gradle.kts`.
 2. Remove the entry from `supported_languages` in `app/core/src/main/res/values/arrays_general_settings_values.xml`.
 
 ## Adding a language
 
-1. Add the language code to the `resourceConfigurations` list in `app-k9mail/build.gradle.kts`.
+1. Add the language code to the `androidResources.localeFilters` list in `app-thunderbird/build.gradle.kts` and
+   `app-k9mail/build.gradle.kts`.
 2. Add an entry to `supported_languages` in `app/core/src/main/res/values/arrays_general_settings_values.xml`.
 3. Make sure that `language_values` in `app/core/src/main/res/values/arrays_general_settings_values.xml` contains an
    entry for the language code you just added. If not:

@@ -27,11 +27,6 @@ class LanguageCodeLoader(
         return languages.filter { it.translatedPercent >= threshold }
             .map {
                 languageCodeLookup[it.code] ?: throw IllegalArgumentException("Language code ${it.code} is not mapped")
-            }.map { fixLanguageCodeFormat(it) }
-            .sorted()
-    }
-
-    private fun fixLanguageCodeFormat(languageCode: String): String {
-        return if (languageCode.contains("-r")) languageCode.replace("-r", "_") else languageCode
+            }.sorted()
     }
 }
