@@ -3,12 +3,6 @@
 
     <!-- TODO remove when properties have been replaced -->
     <style name="Theme.Legacy.Test" parent="Theme.Material3.Light">
-        <item name="messageListActiveItemBackgroundColor">?attr/colorSecondaryVariant</item>
-        <item name="messageListActiveItemBackgroundAlphaFraction">50%</item>
-        <item name="messageListActiveItemBackgroundAlphaBackground">?attr/colorSurface</item>
-        <item name="messageListRegularItemBackgroundColor">?android:attr/windowBackground</item>
-        <item name="messageListReadItemBackgroundColor">?attr/messageListRegularItemBackgroundColor</item>
-        <item name="messageListUnreadItemBackgroundColor">?attr/messageListRegularItemBackgroundColor</item>
         <item name="contactTokenBackgroundColor">#ccc</item>
         <item name="openpgp_black">#000</item>
         <item name="openpgp_orange">#FF8800</item>

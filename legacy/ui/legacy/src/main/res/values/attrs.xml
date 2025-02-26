@@ -4,12 +4,6 @@
     <declare-styleable name="K9Styles">
         <attr name="textColorPrimaryRecipientDropdown" format="reference" />
         <attr name="textColorSecondaryRecipientDropdown" format="reference" />
-        <attr name="messageListRegularItemBackgroundColor" format="reference|color" />
-        <attr name="messageListReadItemBackgroundColor" format="reference|color" />
-        <attr name="messageListUnreadItemBackgroundColor" format="reference|color" />
-        <attr name="messageListActiveItemBackgroundColor" format="reference|color" />
-        <attr name="messageListActiveItemBackgroundAlphaFraction" format="fraction" />
-        <attr name="messageListActiveItemBackgroundAlphaBackground" format="reference|color" />
         <attr name="messageListSwipeSelectColor" format="reference|color" />
         <attr name="messageListSwipeToggleReadColor" format="reference|color" />
         <attr name="messageListSwipeToggleStarColor" format="reference|color" />

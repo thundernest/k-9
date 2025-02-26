@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:background="?attr/messageListRegularItemBackgroundColor"
+    android:background="?attr/colorSurface"
     android:foreground="?attr/selectableItemBackground"
     android:gravity="center"
     android:orientation="horizontal"

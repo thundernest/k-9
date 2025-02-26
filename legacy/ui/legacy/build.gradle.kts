@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.uiUtils.toolbarBottomSheet)
 
     implementation(projects.core.featureflags)
+    implementation(projects.core.ui.theme.api)
     implementation(projects.feature.launcher)
     implementation(projects.feature.navigation.drawer)
     // TODO: Remove AccountOauth dependency
